@@ -1,14 +1,20 @@
+#ifndef _H_NODE_
+#define _H_NODE_
+
 #include <climits>
 #include <vector>
-#include <Edge.h>
+// #include "Edge.h"
+struct Edge;
 
 struct Node
 {
-  int id;
+  std::string id;
   int distance = INT_MAX;
-  std::vector<Edge> edges;
+  std::vector<std::shared_ptr<Edge>> edges;
 
-  Node(int id) : id(id)
+  Node(std::string id) : id(id)
   {
   }
 };
+
+#endif

@@ -1,14 +1,19 @@
+#ifndef _H_EDGE_
+#define _H_EDGE_
+
 #include <limits>
-#include <Node.h>
+#include "Node.h"
 
 struct Edge
 {
-  int id;
+  std::string id;
   int distance;
-  std::pair<Node, Node> nodes;
+  std::pair<std::shared_ptr<Node>, std::shared_ptr<Node>> nodes;
 
-  Edge(int id, int distance, const Node &node1, const Node &node2)
-      : id(id), distance(distance), nodes(node1, node2)
+  Edge(std::string id, int distance)
+      : id(id), distance(distance)
   {
   }
 };
+
+#endif
