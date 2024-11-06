@@ -1,62 +1,45 @@
 #include <iostream>
 #include <memory>
-#include "Node.h"
-#include "Edge.h"
-
-std::shared_ptr<Node> makeNode(std::string id)
-{
-    return std::make_shared<Node>(id);
-}
-
-std::shared_ptr<Edge> makeEdge(std::string id, int distance)
-{
-    return std::make_shared<Edge>(id, distance);
-}
+#include <map>
 
 int main()
 {
-    std::vector<std::shared_ptr<Node>> nodes;
-    std::vector<std::shared_ptr<Edge>> edges;
+    const std::map<std::string, std::map<std::string, int>> graph = {
+        {"A", {{"B", 8}, {"C", 9}, {"D", 4}}},
+        {"B", {{"A", 8}, {"C", 5}, {"E", 6}}},
+        {"C", {{"A", 9}, {"B", 5}, {"D", 1}, {"E", 4}, {"F", 2}}},
+        {"D", {{"A", 4}, {"C", 1}, {"F", 6}}},
+        {"E", {{"B", 6}, {"C", 4}, {"G", 9}}},
+        {"F", {{"C", 2}, {"D", 6}, {"G", 3}}},
+        {"G", {{"E", 9}, {"F", 3}}}};
 
-    std::shared_ptr<Node> startNode = makeNode("A");
-
-    std::vector<std::shared_ptr<Edge>> startToFirstEdges;
-    startToFirstEdges.push_back(makeEdge("a", 8));
-    startToFirstEdges.push_back(makeEdge("b", 9));
-    startToFirstEdges.push_back(makeEdge("c", 4));
-
-    std::vector<std::shared_ptr<Node>> firstNodes;
-    firstNodes.push_back(makeNode("B"));
-    firstNodes.push_back(makeNode("C"));
-    firstNodes.push_back(makeNode("D"));
-
-    std::vector<std::shared_ptr<Edge>> firstEdges;
-    firstEdges.push_back(makeEdge("d", 5));
-    firstEdges.push_back(makeEdge("e", 1));
-
-    std::vector<std::shared_ptr<Edge>> firstToSecondEdges;
-    firstToSecondEdges.push_back(makeEdge("f", 6));
-    firstToSecondEdges.push_back(makeEdge("g", 4));
-    firstToSecondEdges.push_back(makeEdge("h", 2));
-    firstToSecondEdges.push_back(makeEdge("i", 6));
-
-    std::vector<std::shared_ptr<Node>> secondNodes;
-    secondNodes.push_back(makeNode("E"));
-    secondNodes.push_back(makeNode("F"));
-
-    std::vector<std::shared_ptr<Edge>> secondToEndEdges;
-    secondToEndEdges.push_back(makeEdge("j", 9));
-    secondToEndEdges.push_back(makeEdge("k", 3));
-
-    std::shared_ptr<Node> endNode = makeNode("G");
-
-    for (std::shared_ptr<Node> node : nodes)
+    bool isValid = true;
+    for (const std::pair<std::string, std::map<std::string, int>> &pair : graph)
     {
-        std::cout << node->id << std::endl;
+        const std::string &nodeId = pair.first;
+        const std::map<std::string, int> &connections = pair.second;
+        for (const std::pair<std::string, int> &connection : connections)
+        {
+            if (graph.count(connection.first) == 1)
+            {
+                if (graph.at(connection.first).count(nodeId) == 1)
+                {
+                    if (graph.at(connection.first).at(nodeId) != connection.second)
+                    {
+                        isValid = false;
+                    }
+                }
+                else
+                {
+                    isValid = false;
+                }
+            }
+            else
+            {
+                isValid = false;
+            }
+        }
     }
 
-    for (std::shared_ptr<Edge> edge : edges)
-    {
-        std::cout << edge->id << " " << edge->distance << std::endl;
-    }
+    std::cout << isValid << std::endl;
 }
