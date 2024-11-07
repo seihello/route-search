@@ -67,5 +67,8 @@ int main()
     }
 
     const std::shared_ptr<Dijkstra> dijkstra = std::make_shared<Dijkstra>(graph);
-    dijkstra->calculateShortestPath("A", "G");
+    const int result = dijkstra->calculateShortestPath("A", "G");
+    std::cout << "Shortest distance: " << result << std::endl;
+
+    return 0;
 }
