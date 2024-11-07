@@ -66,6 +66,6 @@ int main()
         std::cout << edge->id << ", " << edge->distance << ", " << edge->nodes.first->id << ", " << edge->nodes.second->id << std::endl;
     }
 
-    const std::shared_ptr<Dijkstra> dijkstra = std::make_shared<Dijkstra>();
-    dijkstra->calculateShortestPath(graph);
+    const std::shared_ptr<Dijkstra> dijkstra = std::make_shared<Dijkstra>(graph);
+    dijkstra->calculateShortestPath("A", "G");
 }

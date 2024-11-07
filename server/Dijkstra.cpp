@@ -1,7 +1,11 @@
 // server/Dijkstra.cpp
 #include "Dijkstra.h"
 
-void Dijkstra::calculateShortestPath(const std::shared_ptr<Graph> graph)
+Dijkstra::Dijkstra(const std::shared_ptr<Graph> graph): graph(graph)
 {
-  return;
+}
+
+int Dijkstra::calculateShortestPath(const std::string startNodeId, const std::string endNodeId)
+{
+  return 100;
 }

@@ -7,9 +7,11 @@
 class Dijkstra
 {
 public:
-  void calculateShortestPath(const std::shared_ptr<Graph> graph);
+  Dijkstra(const std::shared_ptr<Graph> graph);
+  int calculateShortestPath(const std::string startNodeId, const std::string endNodeId);
 
 private:
+  std::shared_ptr<Graph> graph;
   std::vector<std::string> shortestPaths;
 };
 
