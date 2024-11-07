@@ -84,6 +84,20 @@ int main()
         nodes[nodeId] = node;
     }
 
+    // Print the created nodes and edges
+    std::cout << "Nodes" << std::endl;
+    for (const std::pair<std::string, std::shared_ptr<Node>> pair : nodes)
+    {
+        const std::shared_ptr<Node> node = pair.second;
+        std::cout << node->id << ", ";
+        for (const std::shared_ptr<Edge> edge : node->edges)
+        {
+            std::cout << edge->id << ", ";
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << "Edges" << std::endl;
     for (const std::pair<std::string, std::shared_ptr<Edge>> pair : edges)
     {
         const std::shared_ptr<Edge> edge = pair.second;

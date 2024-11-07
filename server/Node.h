@@ -9,7 +9,8 @@ struct Edge;
 struct Node
 {
   std::string id;
-  int distance = INT_MAX;
+  int currentDistance = INT_MAX;
+  bool isConfirmed = false;
   std::vector<std::shared_ptr<Edge>> edges;
 
   Node(std::string id) : id(id)
