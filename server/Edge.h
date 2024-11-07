@@ -2,6 +2,8 @@
 #define _H_EDGE_
 
 #include <limits>
+#include <iostream>
+#include <memory>
 #include "Node.h"
 
 struct Edge

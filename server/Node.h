@@ -1,8 +1,10 @@
 #ifndef _H_NODE_
 #define _H_NODE_
 
+#include <iostream>
 #include <climits>
 #include <vector>
+#include <memory>
 // #include "Edge.h"
 struct Edge;
 

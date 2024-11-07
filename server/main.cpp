@@ -4,6 +4,7 @@
 #include "Node.h"
 #include "Edge.h"
 #include "Graph.h"
+#include "Dijkstra.h"
 
 std::string getEdgeId(const std::string &nodeId1, const std::string &nodeId2)
 {
@@ -21,7 +22,7 @@ int main()
     //     {"F", {{"C", 2}, {"D", 6}, {"G", 3}}},
     //     {"G", {{"E", 9}, {"F", 3}}}};
 
-    const std::vector<std::string> nodeIds = { "A", "B", "C", "D", "E", "F", "G" };
+    const std::vector<std::string> nodeIds = {"A", "B", "C", "D", "E", "F", "G"};
     const std::map<std::pair<std::string, std::string>, int> connections = {
         {{"A", "B"}, 8}, {{"A", "C"}, 9}, {{"A", "D"}, 4}, {{"B", "C"}, 5}, {{"B", "E"}, 6}, {{"C", "D"}, 1}, {{"C", "E"}, 4}, {{"C", "F"}, 2}, {{"D", "F"}, 6}, {{"E", "G"}, 9}, {{"F", "G"}, 3}};
 
@@ -45,8 +46,6 @@ int main()
         graph->nodes[nodeId2]->edges.push_back(graph->edges[edgeId]);
     }
 
-
-    
     // Print the created nodes and edges
     std::cout << "Nodes" << std::endl;
     for (const std::pair<std::string, std::shared_ptr<Node>> pair : graph->nodes)
@@ -66,4 +65,7 @@ int main()
         const std::shared_ptr<Edge> edge = pair.second;
         std::cout << edge->id << ", " << edge->distance << ", " << edge->nodes.first->id << ", " << edge->nodes.second->id << std::endl;
     }
+
+    const std::shared_ptr<Dijkstra> dijkstra = std::make_shared<Dijkstra>();
+    dijkstra->calculateShortestPath(graph);
 }
