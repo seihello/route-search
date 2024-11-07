@@ -1,6 +1,8 @@
 #include <iostream>
 #include <memory>
 #include <map>
+#include "Node.h"
+#include "Edge.h"
 
 int main()
 {
@@ -42,4 +44,49 @@ int main()
     }
 
     std::cout << isValid << std::endl;
+
+    std::map<std::string, std::shared_ptr<Node>> nodes = {};
+    std::map<std::string, std::shared_ptr<Edge>> edges = {};
+    for (const std::pair<std::string, std::map<std::string, int>> &pair : graph)
+    {
+        const std::string &nodeId = pair.first;
+        const std::map<std::string, int> &connections = pair.second;
+
+        std::shared_ptr<Node> node;
+        if (nodes.count(nodeId) == 0)
+        {
+            node = std::make_shared<Node>(nodeId);
+        }
+        else
+        {
+            node = nodes.at(nodeId);
+        }
+        for (const std::pair<std::string, int> &connection : connections)
+        {
+            // Create a new edge for the connection
+            if (nodes.count(connection.first) == 0)
+            {
+                const std::shared_ptr<Node> connectedNode = std::make_shared<Node>(connection.first);
+                const std::shared_ptr<Edge> connectedEdge = std::make_shared<Edge>(std::to_string(edges.size() + 1), connection.second);
+
+                // Set the connected edge to this node
+                node->edges.push_back(connectedEdge);
+                connectedNode->edges.push_back(connectedEdge);
+
+                // Set this node to the connected edge
+                connectedEdge->nodes.first = node;
+                connectedEdge->nodes.second = connectedNode;
+
+                // Register the edge
+                edges[std::to_string(edges.size() + 1)] = connectedEdge;
+            }
+        }
+        nodes[nodeId] = node;
+    }
+
+    for (const std::pair<std::string, std::shared_ptr<Edge>> pair : edges)
+    {
+        const std::shared_ptr<Edge> edge = pair.second;
+        std::cout << edge->id << ", " << edge->distance << ", " << edge->nodes.first->id << ", " << edge->nodes.second->id << std::endl;
+    }
 }
