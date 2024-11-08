@@ -1,10 +1,12 @@
 #include <iostream>
 #include <memory>
 #include <map>
+#include <boost/asio.hpp>
 #include "Node.h"
 #include "Edge.h"
 #include "Graph.h"
 #include "Dijkstra.h"
+#include "WebsocketServer.h"
 
 std::string getEdgeId(const std::string &nodeId1, const std::string &nodeId2)
 {
@@ -69,6 +71,22 @@ int main()
     const std::shared_ptr<Dijkstra> dijkstra = std::make_shared<Dijkstra>(graph);
     const int result = dijkstra->calculateShortestPath("A", "G");
     std::cout << "Shortest distance: " << result << std::endl;
+
+    try
+    {
+        net::io_context ioc;
+
+        tcp::endpoint endpoint(tcp::v4(), 8080);
+        WebSocketServer server(ioc, endpoint);
+
+        std::cout << "WebSocket Server is running on ws://localhost:8080" << std::endl;
+
+        ioc.run();
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
 
     return 0;
 }
